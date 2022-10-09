@@ -1,10 +1,16 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Rooms</h1>
-zz
+
 <ul class="mt-4 list-unstyled">
   <%= render @rooms %>
 </ul>
+
+<div>
+  <h5>Online now:</h5>
+  <ul id="online"></ul>
+</div>
+
 
 <div class="mt-2">
   <%= render 'rooms/form', room: @room %>
