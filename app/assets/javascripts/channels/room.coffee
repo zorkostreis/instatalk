@@ -10,11 +10,14 @@ jQuery(document).on 'turbolinks:load', ->
     return
 
   $(document).on 'keypress', '#message_body', (event) ->
-    message = event.target.value
-    if event.keyCode is 13 && message != ''
-      App.room.speak(message)
-      event.target.value = ""
+    message = event.target.value.trim()
+
+    if event.keyCode is 13
       event.preventDefault()
+
+      if message != ""
+        App.room.speak(message)
+        event.target.value = ""
 
 createRoomChannel = (roomId) ->
   App.room = App.cable.subscriptions.create {channel: "RoomChannel", roomId: roomId},
@@ -30,6 +33,7 @@ createRoomChannel = (roomId) ->
       # Called when there's incoming data on the websocket for this channel
       console.log('Received message: ' + data['message'])
       $('#messages').append data['message']
+      messages.scrollTop = messages.scrollHeight
 
     speak: (message) ->
       @perform 'speak', message: message
